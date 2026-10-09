@@ -25,7 +25,7 @@ An open-source, non-profit tool for supermarkets to create Instagram offer posts
 ### Language
 
 - **Portuguese:** `README.md`, `CONTRIBUTING.md`, GitHub issues (titles and bodies), the issue template and all user-facing text in the app.
-- **English:** code (identifiers and comments), commit messages, branch names, `AGENTS.md`, `docs/` and the AI workflow under `.claude/`.
+- **English:** code (identifiers and comments), commit messages, branch names, pull requests (title and body), `AGENTS.md`, `docs/` and the AI workflow under `.claude/`.
 
 ### Package manager
 

@@ -53,7 +53,7 @@ Abaixo estão os destaques das convenções.
 ### Idioma
 
 - **Português:** este README, o `CONTRIBUTING.md`, as issues (título e corpo), o template de issue e todos os textos exibidos no app.
-- **Inglês:** código (nomes e comentários), mensagens de commit, nomes de branch, `AGENTS.md`, `docs/` e o workflow de IA em `.claude/`.
+- **Inglês:** código (nomes e comentários), mensagens de commit, nomes de branch, pull requests (título e corpo), `AGENTS.md`, `docs/` e o workflow de IA em `.claude/`.
 
 ### Ferramentas
 
