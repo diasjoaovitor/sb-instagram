@@ -12,7 +12,20 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ### Scope
 
-This is a general-purpose boilerplate: it takes no stance on database, ORM, auth, data fetching, state management, hosting or any other dependency outside the toolchain and the UI layer. Don't add one as a default; each project picks its own. The one opinion on the UI side is **shadcn/ui** as the component library, with its theme and Tailwind's default palette kept as they come (see Styling & UI).
+An open-source, non-profit tool for supermarkets to create Instagram offer posts. The UI side uses **shadcn/ui** as the component library, with its theme and Tailwind's default palette kept as they come (see Styling & UI).
+
+- **Self-hosted, one instance per store.** The app ships as a Docker image that each store runs itself. There is no hosted service and no multi-tenancy: never design for several stores sharing one instance, and never send store data anywhere outside the instance.
+- **Storage:** SQLite, in a file inside the instance's data volume. Photos uploaded by the store live in the same volume, never in git.
+- **No login in v1.** The instance runs on the store's network; whoever reaches the URL can use it.
+- **Store branding is data, not code.** Logo, colors, slogan and Instagram handle are configured per instance in the app, so nothing store-specific (including Supermercado Baratão, where the project started) is hardcoded.
+- **Products are keyed by code:** the barcode (EAN) when the product has one, otherwise the store's internal code (the one used by its POS or scale). Barcodes are read from a USB scanner or typed; camera scanning is out of v1.
+- **Community catalog.** The only content versioned in git and open to contributions is the product catalog, in two folders: products with an EAN (an image plus a data file with name, brand and unit, both named after the EAN) and products without an EAN (images only, named after the product description, e.g. `picanha-bovina.webp`). Internal codes differ from store to store, so a product without an EAN never enters the catalog by its code: the store assigns a catalog image to its own internal code.
+- **Out of v1:** publishing to Instagram, scheduling, AI-generated captions and a visual template editor. Don't add them without an issue.
+
+### Language
+
+- **Portuguese:** `README.md`, `CONTRIBUTING.md`, GitHub issues (titles and bodies), the issue template and all user-facing text in the app.
+- **English:** code (identifiers and comments), commit messages, branch names, pull requests (title and body), `AGENTS.md`, `docs/` and the AI workflow under `.claude/`.
 
 ### Package manager
 

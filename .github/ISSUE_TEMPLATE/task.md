@@ -1,17 +1,17 @@
 ---
-name: Task
-about: Scope of a deliverable (page, feature or infrastructure) that fits in a single PR.
+name: Tarefa
+about: Escopo de uma entrega (página, funcionalidade ou infraestrutura) que cabe em um único PR.
 title: ''
 ---
 
-## Context
+## Contexto
 
-<!-- Why this task exists and what the current state is. Describe the problem, not the solution. -->
+<!-- Por que a tarefa existe e qual é a situação atual. Descreva o problema, não a solução. -->
 
-## Tasks
+## Tarefas
 
-<!-- One verifiable deliverable per checklist item, for example `- [ ] Create the header component`. Use `code` for routes, files and components. Ask only for tests of our own logic, not of library or framework behavior. -->
+<!-- Um entregável verificável por item da lista, por exemplo `- [ ] Criar o componente de cabeçalho`. Use `code` para rotas, arquivos e componentes. Peça apenas testes da nossa própria lógica, não do comportamento de bibliotecas ou do framework. -->
 
-## Notes
+## Notas
 
-<!-- Optional. Decisions already made and what is NOT part of this issue. For a critical constraint, use an `> [!IMPORTANT]` callout. Remove the section if empty. -->
+<!-- Opcional. Decisões já tomadas, o que NÃO faz parte desta tarefa e de quais issues ela depende (`Depende da #N`). Para uma restrição crítica, use um callout `> [!IMPORTANT]`. Remova a seção se estiver vazia. -->
