@@ -22,23 +22,23 @@ The output of that session is a set of decisions. Turn them into tasks, each one
 
 ## 2. Create the issues
 
-Create each task from the **Task** template (`.github/ISSUE_TEMPLATE/task.md`), in the GitHub UI or with `gh issue create`:
+Create each task from the **Tarefa** template (`.github/ISSUE_TEMPLATE/task.md`), in the GitHub UI or with `gh issue create`. Issues are written in Portuguese (see Language in [`AGENTS.md`](../AGENTS.md)), so the template sections are too:
 
-| Section | What goes in it                                                                                                                                                      |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Context | Why the task exists and the current state. Describe the problem, not the solution.                                                                                   |
-| Tasks   | A checklist with one verifiable deliverable per item. Use `code` for routes, files and components. Ask only for tests of our own logic (see Testing in `AGENTS.md`). |
-| Notes   | Optional. Decisions already made, what is **not** part of the issue and which issues it depends on (`Depends on ...`). Remove if empty.                              |
+| Section  | What goes in it                                                                                                                                                      |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Contexto | Why the task exists and the current state. Describe the problem, not the solution.                                                                                   |
+| Tarefas  | A checklist with one verifiable deliverable per item. Use `code` for routes, files and components. Ask only for tests of our own logic (see Testing in `AGENTS.md`). |
+| Notas    | Optional. Decisions already made, what is **not** part of the issue and which issues it depends on (`Depende da #N`). Remove if empty.                               |
 
 Then:
 
 - Assign the issue to a milestone, if the project uses them, so the order of the larger stages is explicit.
-- Write the title as a short imperative summary, for example `Header and footer`.
-- Record dependencies in Notes, so the order of work is explicit.
+- Write the title as a short summary in Portuguese, for example `Cabeçalho e rodapé`.
+- Record dependencies in Notas, so the order of work is explicit.
 
 ## 3. Pick an issue
 
-Take the next open issue of the current milestone whose dependencies (the `Depends on ...` lines in Notes) are already closed. Read the whole issue, including Notes, before starting.
+Take the next open issue of the current milestone whose dependencies (the `Depende da #N` lines in Notas) are already closed. Read the whole issue, including Notas, before starting.
 
 When an AI agent picks the issue, it presents a summary of the plan (branch, steps, files and open decisions) and waits for explicit approval before changing anything (see Task Rules in [`AGENTS.md`](../AGENTS.md)).
 

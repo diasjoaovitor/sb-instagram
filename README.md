@@ -1,120 +1,136 @@
-# Next Boilerplate
+# SB Instagram
 
-A starting point for [Next.js](https://nextjs.org) (App Router) projects with React, TypeScript and Tailwind CSS.
+Ferramenta open source e sem fins lucrativos para supermercados criarem as artes de ofertas que publicam no Instagram. Você bipa ou digita o código do produto, informa o preço e o app monta o pôster pronto para postar, com a identidade visual do seu mercado.
 
-It's general-purpose, but not entirely neutral: it sets up the toolchain (linting, formatting, tests, git hooks and CI) and takes a stance on the UI layer, with [shadcn/ui](https://ui.shadcn.com) as the component library and its default theme and Tailwind's default palette kept as they come. It takes no stance on database, ORM, auth, data fetching, state management, hosting or any other dependency: each project picks its own.
+O projeto nasceu no Supermercado Baratão e foi pensado para qualquer supermercado usar.
 
-## Getting Started
+## Como funciona
 
-Create a project from this boilerplate:
+- **Auto-hospedado:** cada mercado roda a própria instância a partir de uma imagem Docker. Não existe serviço central: os dados do seu mercado ficam só na sua instância.
+- **Dados locais:** produtos, ofertas e configurações ficam num banco SQLite, e as fotos enviadas pelo mercado ficam no mesmo volume de dados do container.
+- **Marca configurável:** logo, cores, slogan e @ do Instagram são definidos no próprio app.
+- **Produtos por código:** cada produto é identificado pelo código de barras (EAN) ou, quando não tem um (carnes, hortifrúti, padaria), pelo código interno do mercado. Bipar um produto já usado preenche nome, marca, unidade e foto automaticamente. O código é lido por leitor USB ou digitado.
+- **Catálogo comunitário:** o repositório mantém um catálogo aberto a contribuições, com fotos e dados de produtos por EAN e uma pasta de fotos de produtos sem EAN, nomeadas pela descrição (ex.: `picanha-bovina.png`). Como o código interno muda de mercado para mercado, cada mercado associa uma dessas fotos ao próprio código.
 
-```bash
-pnpm create next-app -e https://github.com/diasjoaovitor/next-boilerplate
-```
+Ainda não fazem parte da primeira versão: login, leitura do código pela câmera, publicação direta no Instagram, agendamento de posts, legendas geradas por IA e editor visual de artes.
 
-Install the dependencies and start the development server (Node version in `.nvmrc`, package manager: pnpm):
+## Começando
+
+> [!NOTE]
+> A imagem Docker ainda está em construção ([#2](https://github.com/diasjoaovitor/sb-instagram/issues/2)). Por enquanto, o app roda só em modo de desenvolvimento.
+
+Instale as dependências e inicie o servidor de desenvolvimento (versão do Node no `.nvmrc`, gerenciador de pacotes: pnpm):
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no navegador.
 
 ## Scripts
 
-| Script                                      | What it does                                            |
-| ------------------------------------------- | ------------------------------------------------------- |
-| `pnpm dev`                                  | Start the development server                            |
-| `pnpm build`                                | Create the production build                             |
-| `pnpm start`                                | Serve the production build                              |
-| `pnpm type-check`                           | Generate route types and type-check with `tsc --noEmit` |
-| `pnpm eslint:check` / `pnpm eslint:fix`     | Lint (and auto-fix) with ESLint                         |
-| `pnpm prettier:check` / `pnpm prettier:fix` | Check (and rewrite) formatting                          |
-| `pnpm test` / `pnpm test:watch`             | Run the Vitest unit tests                               |
-| `pnpm test:e2e` / `pnpm test:e2e:ui`        | Run the Playwright end-to-end tests                     |
-| `pnpm shadcn:add <name>`                    | Add a shadcn/ui component                               |
+| Script                                      | O que faz                                                   |
+| ------------------------------------------- | ----------------------------------------------------------- |
+| `pnpm dev`                                  | Inicia o servidor de desenvolvimento                        |
+| `pnpm build`                                | Gera o build de produção                                    |
+| `pnpm start`                                | Serve o build de produção                                   |
+| `pnpm type-check`                           | Gera os tipos das rotas e checa os tipos com `tsc --noEmit` |
+| `pnpm eslint:check` / `pnpm eslint:fix`     | Analisa (e corrige) o código com o ESLint                   |
+| `pnpm prettier:check` / `pnpm prettier:fix` | Confere (e reescreve) a formatação                          |
+| `pnpm test` / `pnpm test:watch`             | Roda os testes unitários (Vitest)                           |
+| `pnpm test:e2e` / `pnpm test:e2e:ui`        | Roda os testes end-to-end (Playwright)                      |
+| `pnpm shadcn:add <name>`                    | Adiciona um componente do shadcn/ui                         |
 
-## Project conventions
+## Como contribuir
 
-The full conventions live in [`AGENTS.md`](./AGENTS.md), and the step-by-step flow from planning to merge is in [`docs/development-workflow.md`](./docs/development-workflow.md); the highlights are below.
+O planejamento e as tarefas ficam nas [issues](https://github.com/diasjoaovitor/sb-instagram/issues), organizadas por milestone. O fluxo completo, do planejamento ao merge, está em [`docs/development-workflow.md`](./docs/development-workflow.md), e as convenções detalhadas estão no [`AGENTS.md`](./AGENTS.md).
 
-### Tooling
+## Convenções do projeto
 
-- **Package manager:** pnpm only. Versions in `dependencies` and `devDependencies` are pinned exact (install with `pnpm add -E <pkg>`).
-- **Node:** version pinned in `.nvmrc` (`lts/krypton`) and, for hosts that ignore `.nvmrc` such as Vercel, in `engines.node` (`24.x`) in `package.json`.
-- **React Compiler:** enabled via `reactCompiler: true` in `next.config.ts`.
-- **Path alias:** `@/*` resolves to `src/*`.
+Abaixo estão os destaques das convenções.
 
-### Project structure
+### Idioma
 
-- `src/app` holds frontend-exclusive code only. Routes live in the `src/app/(pages)` route group (which does not affect the URL), shared components live in `src/app/components`, React hooks in `src/app/hooks` and other helpers in `src/app/helpers`. There are no `index.ts` barrels: modules are imported directly from their files through the `@/` alias.
-- Components are grouped by role: `ui/` for visual building blocks (shadcn ones in `ui/shadcn/`), `blocks/` for composed pieces reused across pages (grouped by domain, e.g. `blocks/post/`), `providers/` for context providers and `layouts/` for page shells, whose private parts live in a `_components/` folder next to them.
-- Global styles live in `src/app/styles/globals.css`.
-- Anything that is not frontend-exclusive, such as `src/tests`, sits directly under `src`, as a sibling of `app`.
+- **Português:** este README, o `CONTRIBUTING.md`, as issues (título e corpo), o template de issue e todos os textos exibidos no app.
+- **Inglês:** código (nomes e comentários), mensagens de commit, nomes de branch, `AGENTS.md`, `docs/` e o workflow de IA em `.claude/`.
 
-### Styling and UI
+### Ferramentas
 
-- **Tailwind CSS v4** through `@tailwindcss/postcss`.
-- **shadcn/ui** (style `base-nova`, base color `neutral`, `lucide` icons) on top of [Base UI](https://base-ui.com), with `class-variance-authority` and the `cn()` helper from the `cn` package. It's the component library of choice: reach for a shadcn component before writing one from scratch. Components land in `src/app/components/ui/shadcn/`; add more with `pnpm shadcn:add <name>`.
-- **Default colors as they come:** the shadcn tokens and the Tailwind palette aren't retinted. Use the tokens (`bg-background`, `text-muted-foreground`, ...) for surfaces and text, and pick an existing palette color (e.g. `teal-500`) instead of a custom shade.
-- **Dark mode** follows the system preference (`prefers-color-scheme`).
-- Links that look like buttons stay `<a>`/`Link` elements styled with `buttonVariants(...)`, never rendered through `Button`.
+- **Gerenciador de pacotes:** apenas pnpm. As versões em `dependencies` e `devDependencies` são fixadas exatas (instale com `pnpm add -E <pkg>`).
+- **Node:** versão fixada no `.nvmrc` (`lts/krypton`) e, para ambientes que ignoram o `.nvmrc`, no `engines.node` (`24.x`) do `package.json`.
+- **React Compiler:** ativado com `reactCompiler: true` no `next.config.ts`.
+- **Alias de caminho:** `@/*` aponta para `src/*`.
 
-### Linting and formatting
+### Estrutura do projeto
 
-- **ESLint** (flat config) extends `eslint-config-next` and adds the `unicorn`, `simple-import-sort`, `tailwindcss`, `promise` and `prefer-arrow-functions` plugins, plus `@eslint/json` and `@eslint/markdown`.
-- **Prettier** with single quotes, no semicolons and no trailing commas. Indentation and whitespace are enforced by `.editorconfig`.
-- Scripts: `pnpm eslint:check`, `pnpm eslint:fix`, `pnpm prettier:check`, `pnpm prettier:fix` and `pnpm type-check`.
+- `src/app` guarda apenas código exclusivo do frontend. As rotas ficam no route group `src/app/(pages)` (que não altera a URL), os componentes compartilhados em `src/app/components`, os hooks do React em `src/app/hooks` e os demais helpers em `src/app/helpers`. Não há barrels `index.ts`: cada módulo é importado direto do seu arquivo pelo alias `@/`.
+- Os componentes são agrupados por papel: `ui/` para blocos visuais (os do shadcn em `ui/shadcn/`), `blocks/` para peças compostas reutilizadas entre páginas (agrupadas por domínio, ex.: `blocks/post/`), `providers/` para providers de contexto e `layouts/` para as estruturas de página, cujas partes privadas ficam numa pasta `_components/` ao lado.
+- Os estilos globais ficam em `src/app/styles/globals.css`.
+- O que não é exclusivo do frontend, como `src/tests`, fica direto em `src`, ao lado de `app`.
 
-### Code comments
+### Estilo e UI
 
-- Comments only record why a decision was made, ideally with a reference (docs, issue or upstream bug), never what the code does. They are written in English.
+- **Tailwind CSS v4** via `@tailwindcss/postcss`.
+- **shadcn/ui** (estilo `base-nova`, cor base `neutral`, ícones `lucide`) sobre o [Base UI](https://base-ui.com), com `class-variance-authority` e o helper `cn()` do pacote `cn`. É a biblioteca de componentes do projeto: procure um componente do shadcn antes de escrever um do zero. Os componentes ficam em `src/app/components/ui/shadcn/`; adicione outros com `pnpm shadcn:add <name>`.
+- **Cores padrão como vêm:** os tokens do shadcn e a paleta do Tailwind não são alterados. Use os tokens (`bg-background`, `text-muted-foreground`, ...) para superfícies e textos, e escolha uma cor existente da paleta (ex.: `teal-500`) em vez de um tom personalizado.
+- **Modo escuro** segue a preferência do sistema (`prefers-color-scheme`).
+- Links com aparência de botão continuam sendo elementos `<a>`/`Link` estilizados com `buttonVariants(...)`, nunca renderizados pelo `Button`.
 
-### Testing
+### Lint e formatação
 
-- **Unit tests:** Vitest with `jsdom` and Testing Library. Run `pnpm test` (once) or `pnpm test:watch`. Only `src/**/*.test.{ts,tsx}` files are picked up.
-- **E2E tests:** Playwright (Chromium) in `src/tests/e2e`. Run `pnpm test:e2e` or `pnpm test:e2e:ui`. The dev server starts automatically.
-- Only the logic we wrote is tested, not library or framework behavior.
+- **ESLint** (flat config) estende o `eslint-config-next` e adiciona os plugins `unicorn`, `simple-import-sort`, `tailwindcss`, `promise` e `prefer-arrow-functions`, além do `@eslint/json` e do `@eslint/markdown`.
+- **Prettier** com aspas simples, sem ponto e vírgula e sem vírgula final. Indentação e espaços em branco são definidos pelo `.editorconfig`.
+- Scripts: `pnpm eslint:check`, `pnpm eslint:fix`, `pnpm prettier:check`, `pnpm prettier:fix` e `pnpm type-check`.
 
-### Git hooks and CI
+### Comentários no código
 
-- **Husky hooks:**
-  - `pre-commit` runs `lint-staged` (Prettier, ESLint and `vitest related` on staged files).
-  - `commit-msg` adds the emoji prefix and runs `commitlint`.
-  - `pre-push` runs `pnpm type-check` and `pnpm test:e2e`.
-- **Commit messages** are written in English, in the imperative mood and lowercase, with a semantic prefix, for example `✨ feat: add product page`. Typing `feat: ...` is enough, since the hook adds the emoji.
-- **Branches:** work for each issue goes on a new branch named `<scope>/<title>#<issue>`, where `<scope>` is the commit prefix without the emoji, for example `feat/home-page#3`. For very specific work, add an optional target in parentheses (a page, component or other area), for example `fix(card)/focus-ring#7`. Nothing for an issue is committed directly to `main`.
-- **Issues** are created from the **Task** template (`.github/ISSUE_TEMPLATE/task.md`). Tick every completed checklist item in the issue body before closing it.
-- **GitHub Actions** (`.github/workflows/ci.yml`) runs on every pull request: commitlint, type-check, ESLint, Prettier, unit tests and E2E tests.
+- Comentários registram apenas o porquê de uma decisão, de preferência com uma referência (documentação, issue ou bug upstream), nunca o que o código faz. São escritos em inglês.
 
-### AI assistant setup
+### Testes
 
-- `AGENTS.md` (imported by `CLAUDE.md`) documents the project conventions for coding agents.
-- `.mcp.json` configures the `context7` (library docs) and `playwright` MCP servers.
-- `.claude/` contains a `new-component` skill for adding shadcn or shared components, a `ui-reviewer` subagent that reviews UI semantics and accessibility, and a `settings.json` that asks for confirmation before every `git commit`.
+- **Testes unitários:** Vitest com `jsdom` e Testing Library. Rode `pnpm test` (uma vez) ou `pnpm test:watch`. Só arquivos `src/**/*.test.{ts,tsx}` são considerados.
+- **Testes E2E:** Playwright (Chromium) em `src/tests/e2e`. Rode `pnpm test:e2e` ou `pnpm test:e2e:ui`. O servidor de desenvolvimento sobe automaticamente.
+- Testamos apenas a lógica que escrevemos, não o comportamento de bibliotecas ou do framework.
 
-#### Context7 API key
+### Git hooks e CI
 
-`.mcp.json` reads the key from the `CONTEXT7_API_KEY` environment variable (`"Authorization": "Bearer ${CONTEXT7_API_KEY}"`), so it never lands in the repository. Claude Code expands the variable on startup.
+- **Hooks do Husky:**
+  - `pre-commit` roda o `lint-staged` (Prettier, ESLint e `vitest related` nos arquivos em stage).
+  - `commit-msg` adiciona o emoji do prefixo e roda o `commitlint`.
+  - `pre-push` roda `pnpm type-check` e `pnpm test:e2e`.
+- **Mensagens de commit** são escritas em inglês, no imperativo e em minúsculas, com um prefixo semântico, por exemplo `✨ feat: add product page`. Basta digitar `feat: ...`, pois o hook adiciona o emoji.
+- **Branches:** o trabalho de cada issue vai numa branch nova chamada `<scope>/<title>#<issue>`, em que `<scope>` é o prefixo do commit sem o emoji, por exemplo `feat/home-page#3`. Para um trabalho bem específico, acrescente um alvo opcional entre parênteses (uma página, componente ou outra área), por exemplo `fix(card)/focus-ring#7`. Nada de uma issue é commitado direto na `main`.
+- **Issues** são criadas a partir do template **Tarefa** (`.github/ISSUE_TEMPLATE/task.md`). Marque todos os itens concluídos da lista no corpo da issue antes de fechá-la.
+- **GitHub Actions** (`.github/workflows/ci.yml`) roda em todo pull request: commitlint, type-check, ESLint, Prettier, testes unitários e testes E2E.
 
-1. Generate an API key in the [Context7](https://context7.com) dashboard.
-2. Set the variable using one of these options:
-   - **Shell (all projects):** export it in your shell profile. In fish, run `set -Ux CONTEXT7_API_KEY <your-key>`. In bash or zsh, add `export CONTEXT7_API_KEY=<your-key>` to `~/.bashrc` or `~/.zshrc`.
-   - **This project only:** add it to `.claude/settings.local.json`, which is git-ignored:
+### Configuração do assistente de IA
+
+- O `AGENTS.md` (importado pelo `CLAUDE.md`) documenta as convenções do projeto para agentes de código.
+- O `.mcp.json` configura os servidores MCP `context7` (documentação de bibliotecas) e `playwright`.
+- A pasta `.claude/` contém a skill `new-component`, para adicionar componentes do shadcn ou compartilhados, o subagente `ui-reviewer`, que revisa semântica e acessibilidade da UI, e um `settings.json` que pede confirmação antes de cada `git commit`.
+
+#### Chave de API do Context7
+
+O `.mcp.json` lê a chave da variável de ambiente `CONTEXT7_API_KEY` (`"Authorization": "Bearer ${CONTEXT7_API_KEY}"`), para que ela nunca vá parar no repositório. O Claude Code expande a variável ao iniciar.
+
+1. Gere uma chave de API no painel do [Context7](https://context7.com).
+2. Defina a variável de uma destas formas:
+   - **Shell (todos os projetos):** exporte-a no perfil do seu shell. No fish, rode `set -Ux CONTEXT7_API_KEY <sua-chave>`. No bash ou zsh, adicione `export CONTEXT7_API_KEY=<sua-chave>` ao `~/.bashrc` ou `~/.zshrc`.
+   - **Só este projeto:** adicione-a ao `.claude/settings.local.json`, que é ignorado pelo git:
 
      ```json
      {
        "env": {
-         "CONTEXT7_API_KEY": "<your-key>"
+         "CONTEXT7_API_KEY": "<sua-chave>"
        }
      }
      ```
 
-3. Restart Claude Code and run `/mcp` to check that `context7` is connected.
+3. Reinicie o Claude Code e rode `/mcp` para conferir se o `context7` está conectado.
 
-Never put the key in `.mcp.json` or in `.claude/settings.json`, since both are committed.
+Nunca coloque a chave no `.mcp.json` nem no `.claude/settings.json`, pois os dois são commitados.
 
-## License
+## Licença
 
 [MIT](./LICENSE)

@@ -1,8 +1,8 @@
 {
-  "name": "next-boilerplate",
+  "name": "sb-instagram",
   "version": "1.0.0",
-  "description": "Next.js Boilerplate",
-  "repository": "https://github.com/diasjoaovitor/next-boilerplate.git",
+  "description": "Open-source, self-hosted tool for supermarkets to create Instagram offer posts",
+  "repository": "https://github.com/diasjoaovitor/sb-instagram.git",
   "author": "João Vitor <jvitordiass@outlook.com.br>",
   "license": "MIT",
   "type": "module",
