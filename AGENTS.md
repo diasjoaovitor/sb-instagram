@@ -27,6 +27,13 @@ An open-source, non-profit tool for supermarkets to create Instagram offer posts
 - **Portuguese:** `README.md`, `CONTRIBUTING.md`, GitHub issues (titles and bodies), the issue template and all user-facing text in the app.
 - **English:** code (identifiers and comments), commit messages, branch names, pull requests (title and body), `AGENTS.md`, `docs/` and the AI workflow under `.claude/`.
 
+### Docker & data directory
+
+- The app is built with `output: 'standalone'` (`next.config.ts`) and shipped by the multi-stage `Dockerfile` (`node:24-slim`, pnpm from `packageManager` via corepack). The runtime stage has no pnpm, runs `node server.js` as the unprivileged `node` user and only holds the standalone output, `.next/static` and `public`.
+- `compose.yaml` runs one instance with the named volume `data` mounted at `/data`. Run it with `docker compose up -d --build`.
+- Everything the instance persists (SQLite database, uploaded photos) lives under the data directory, read from `dataDirectory` in `src/infra/data-directory.ts`: `DATA_DIR` when set (`/data` in the image), otherwise `data/` at the project root (git-ignored). Never write instance data anywhere else, or it is lost when the container is replaced.
+- Keep the base image on Debian (`-slim`), not Alpine: native modules (SQLite driver, `sharp`) ship glibc prebuilds.
+
 ### Package manager
 
 - Use **pnpm** only (not npm/yarn).
@@ -40,7 +47,7 @@ An open-source, non-profit tool for supermarkets to create Instagram offer posts
 ### Project structure
 
 - `src/app` holds frontend-exclusive content only — there's no top-level `src/components` or `src/helpers`, that shared code lives under `src/app` instead.
-- Anything that isn't frontend-exclusive (e.g. `src/tests`, and any future non-frontend folder) lives directly under `src`, as a sibling of `app`, not nested inside it.
+- Anything that isn't frontend-exclusive (e.g. `src/tests`, `src/infra` for server-side infrastructure such as the data directory and the database, and any future non-frontend folder) lives directly under `src`, as a sibling of `app`, not nested inside it.
 - Routes are grouped under `src/app/(pages)` (a route group, so it doesn't affect the URL).
 - Shared frontend code lives in `src/app/components`, React hooks in `src/app/hooks` and other helpers in `src/app/helpers` (create them when the first one is needed). The `lib` alias in `components.json` points to `src/app/lib`, which doesn't exist: if the shadcn CLI ever creates something there, keep it in `lib` or move it to `helpers` case by case.
 - There are no `index.ts` barrels: import each module directly from its file through the `@/` alias (e.g. `@/app/components/ui/shadcn/button`). Barrels cause circular imports, give two import paths for the same module and make Vite/Vitest load every re-exported module.

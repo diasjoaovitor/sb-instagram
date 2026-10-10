@@ -1,0 +1,14 @@
+.git
+.github
+.husky
+.claude
+.vscode
+.playwright-mcp
+node_modules
+.next
+data
+test-results
+*.tsbuildinfo
+next-env.d.ts
+Dockerfile
+compose.yaml
