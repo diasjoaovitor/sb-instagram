@@ -16,8 +16,19 @@ Ainda não fazem parte da primeira versão: login, leitura do código pela câme
 
 ## Começando
 
-> [!NOTE]
-> A imagem Docker ainda está em construção ([#2](https://github.com/diasjoaovitor/sb-instagram/issues/2)). Por enquanto, o app roda só em modo de desenvolvimento.
+### Rodando com Docker
+
+Com o [Docker](https://docs.docker.com/get-docker/) instalado, na raiz do repositório:
+
+```bash
+docker compose up -d --build
+```
+
+Abra [http://localhost:3000](http://localhost:3000) no navegador. Para parar, use `docker compose down`.
+
+Os dados da instância (banco e fotos enviadas) ficam no volume nomeado `data`, montado em `/data` dentro do container. Eles continuam lá depois de `docker compose down` ou de atualizar a imagem; só são apagados com `docker compose down --volumes`. O diretório de dados é definido pela variável de ambiente `DATA_DIR`.
+
+### Desenvolvimento
 
 Instale as dependências e inicie o servidor de desenvolvimento (versão do Node no `.nvmrc`, gerenciador de pacotes: pnpm):
 
@@ -26,7 +37,7 @@ pnpm install
 pnpm dev
 ```
 
-Abra [http://localhost:3000](http://localhost:3000) no navegador.
+Abra [http://localhost:3000](http://localhost:3000) no navegador. Fora do Docker, os dados ficam em `data/` na raiz do projeto (ignorada pelo git), a menos que `DATA_DIR` aponte para outro lugar.
 
 ## Scripts
 
