@@ -57,7 +57,7 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador. Fora do Docker
 
 ## Como contribuir
 
-O planejamento e as tarefas ficam nas [issues](https://github.com/diasjoaovitor/sb-instagram/issues), organizadas por milestone. O fluxo completo, do planejamento ao merge, está em [`docs/development-workflow.md`](./docs/development-workflow.md), e as convenções detalhadas estão no [`AGENTS.md`](./AGENTS.md).
+O planejamento e as tarefas ficam nas [issues](https://github.com/supermercado-baratao/sb-instagram/issues), organizadas por milestone. O fluxo completo, do planejamento ao merge, está em [`docs/development-workflow.md`](./docs/development-workflow.md), e as convenções detalhadas estão no [`AGENTS.md`](./AGENTS.md).
 
 ## Convenções do projeto
 
