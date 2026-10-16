@@ -59,7 +59,7 @@ An open-source, non-profit tool for supermarkets to create Instagram offer posts
 ### Project structure
 
 - `src/app` holds frontend-exclusive content only — there's no top-level `src/components` or `src/helpers`, that shared code lives under `src/app` instead.
-- Anything that isn't frontend-exclusive (e.g. `src/tests`, `src/infra` for server-side infrastructure such as the data directory and the database, and any future non-frontend folder) lives directly under `src`, as a sibling of `app`, not nested inside it.
+- Anything that isn't frontend-exclusive (e.g. `src/tests`, `src/infra` for server-side infrastructure such as the data directory and the database, `src/domain` for framework-free domain types and rules shared by the UI and the server, and any future non-frontend folder) lives directly under `src`, as a sibling of `app`, not nested inside it.
 - Routes are grouped under `src/app/(pages)` (a route group, so it doesn't affect the URL).
 - Shared frontend code lives in `src/app/components`, React hooks in `src/app/hooks` and other helpers in `src/app/helpers` (create them when the first one is needed). The `lib` alias in `components.json` points to `src/app/lib`, which doesn't exist: if the shadcn CLI ever creates something there, keep it in `lib` or move it to `helpers` case by case.
 - There are no `index.ts` barrels: import each module directly from its file through the `@/` alias (e.g. `@/app/components/ui/shadcn/button`). Barrels cause circular imports, give two import paths for the same module and make Vite/Vitest load every re-exported module.
