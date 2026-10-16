@@ -86,7 +86,7 @@ Abaixo estão os destaques das convenções.
 - `src/app` guarda apenas código exclusivo do frontend. As rotas ficam no route group `src/app/(pages)` (que não altera a URL), os componentes compartilhados em `src/app/components`, os hooks do React em `src/app/hooks` e os demais helpers em `src/app/helpers`. Não há barrels `index.ts`: cada módulo é importado direto do seu arquivo pelo alias `@/`.
 - Os componentes são agrupados por papel: `ui/` para blocos visuais (os do shadcn em `ui/shadcn/`), `blocks/` para peças compostas reutilizadas entre páginas (agrupadas por domínio, ex.: `blocks/post/`), `providers/` para providers de contexto e `layouts/` para as estruturas de página, cujas partes privadas ficam numa pasta `_components/` ao lado.
 - Os estilos globais ficam em `src/app/styles/globals.css`.
-- O que não é exclusivo do frontend, como `src/tests`, fica direto em `src`, ao lado de `app`.
+- O que não é exclusivo do frontend, como `src/tests`, fica direto em `src`, ao lado de `app`. Os tipos e as regras do domínio (pôster, layouts, modelos de arte), usados pela interface e pelo servidor, ficam em `src/domain`.
 
 ### Estilo e UI
 
