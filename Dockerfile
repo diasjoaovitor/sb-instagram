@@ -26,6 +26,8 @@ RUN mkdir -p /data && chown node:node /data
 COPY --from=build --chown=node:node /app/public ./public
 COPY --from=build --chown=node:node /app/.next/standalone ./
 COPY --from=build --chown=node:node /app/.next/static ./.next/static
+# Migrations are read from disk at startup, so output file tracing doesn't pick them up
+COPY --from=build --chown=node:node /app/src/infra/database/migrations ./src/infra/database/migrations
 USER node
 VOLUME /data
 EXPOSE 3000

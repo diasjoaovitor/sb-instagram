@@ -51,6 +51,8 @@ Abra [http://localhost:3000](http://localhost:3000) no navegador. Fora do Docker
 | `pnpm prettier:check` / `pnpm prettier:fix` | Confere (e reescreve) a formatação                          |
 | `pnpm test` / `pnpm test:watch`             | Roda os testes unitários (Vitest)                           |
 | `pnpm test:e2e` / `pnpm test:e2e:ui`        | Roda os testes end-to-end (Playwright)                      |
+| `pnpm db:generate`                          | Gera uma migration a partir do schema do banco              |
+| `pnpm db:studio`                            | Abre o Drizzle Studio no banco local                        |
 | `pnpm shadcn:add <name>`                    | Adiciona um componente do shadcn/ui                         |
 
 ## Como contribuir
@@ -72,6 +74,12 @@ Abaixo estão os destaques das convenções.
 - **Node:** versão fixada no `.nvmrc` (`lts/krypton`) e, para ambientes que ignoram o `.nvmrc`, no `engines.node` (`24.x`) do `package.json`.
 - **React Compiler:** ativado com `reactCompiler: true` no `next.config.ts`.
 - **Alias de caminho:** `@/*` aponta para `src/*`.
+
+### Banco de dados
+
+- SQLite com **Drizzle ORM** 1.0 (linha `1.0.0-rc`, a mesma da documentação atual do Drizzle) e o driver `better-sqlite3`. O banco é o arquivo `database.sqlite` no diretório de dados.
+- O cliente, o schema e as migrations ficam em `src/infra/database`. As migrations pendentes são aplicadas automaticamente quando a aplicação inicia, no `pnpm dev` e no container.
+- Para mudar o schema, edite `schema.ts`, rode `pnpm db:generate --name <mudança>` e versione a pasta da migration gerada. Uma migration que já foi para a `main` nunca é editada: crie outra.
 
 ### Estrutura do projeto
 
