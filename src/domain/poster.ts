@@ -88,3 +88,15 @@ export const HIDDEN_FIELD_MARKER = '-'
 
 export const isHiddenField = (value: string) =>
   value.trim() === HIDDEN_FIELD_MARKER
+
+// Instagram's portrait ratio (4:5), the tallest a feed post is shown without cropping
+export const POSTER_SIZE = { width: 1080, height: 1350 }
+
+// Returns null when the field is hidden, so the poster drops the whole line
+export const resolvePosterField = (value: string, placeholder: string) =>
+  isHiddenField(value) ? null : value.trim() || placeholder
+
+export const splitPrice = (priceInCents: number) => ({
+  integer: String(Math.trunc(priceInCents / 100)),
+  decimal: String(priceInCents % 100).padStart(2, '0')
+})
