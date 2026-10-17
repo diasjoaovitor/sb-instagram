@@ -9,7 +9,9 @@ import {
   type OfferProduct,
   PAGE_PRODUCT_COUNT,
   type PosterLayout,
-  type PosterTemplate
+  type PosterTemplate,
+  resolvePosterField,
+  splitPrice
 } from './poster'
 
 const products: OfferProduct[] = Array.from(
@@ -88,5 +90,33 @@ describe('isHiddenField', () => {
   test('keeps empty and regular values visible', () => {
     expect(isHiddenField('')).toBe(false)
     expect(isHiddenField('Coca-Cola')).toBe(false)
+  })
+})
+
+describe('resolvePosterField', () => {
+  test('shows the value without surrounding whitespace', () => {
+    expect(resolvePosterField(' Coca-Cola ', 'MARCA')).toBe('Coca-Cola')
+  })
+
+  test('shows the placeholder for an empty value', () => {
+    expect(resolvePosterField('  ', 'MARCA')).toBe('MARCA')
+  })
+
+  test('drops a hidden field', () => {
+    expect(resolvePosterField('-', 'MARCA')).toBeNull()
+  })
+})
+
+describe('splitPrice', () => {
+  test('splits reais and cents', () => {
+    expect(splitPrice(2398)).toEqual({ integer: '23', decimal: '98' })
+  })
+
+  test('pads cents below ten', () => {
+    expect(splitPrice(105)).toEqual({ integer: '1', decimal: '05' })
+  })
+
+  test('shows zero reais for prices under one real', () => {
+    expect(splitPrice(99)).toEqual({ integer: '0', decimal: '99' })
   })
 })
